@@ -1,10 +1,9 @@
 const url = "https://erupyawdaagduppaijwm.supabase.co/rest/v1/";
-const apiKey = "sb_publishable_fxAV0RNxyELBkA8l2ke7Rw_xYJBa-RL";
 
 export default async function request(path = "/", method = "GET", data = null) {
   const options = {
     headers: {
-      apikey: apiKey,
+      apikey: import.meta.env.VITE_API_KEY,
     },
   };
   if (method !== "GET") {

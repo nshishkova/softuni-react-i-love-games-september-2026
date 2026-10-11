@@ -1,3 +1,6 @@
+# Setup
+1. Copy .env as .env.local and fill env variables `cp .env .env.local`
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
