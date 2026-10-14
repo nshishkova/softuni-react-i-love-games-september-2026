@@ -9,13 +9,17 @@ import GameCreate from "./components/game-create/GameCreate.jsx"
 import GameEdit from "./components/game-edit/GameEdit.jsx"
 import Register from "./components/register/Register.jsx"
 import Login from "./components/login/Login.jsx"
+import Logout from "./components/logout/Logout.jsx";
 
 function App() {
-
   const [user, setUser] = useState(null);
 
   const userAuthHandler = (userData) => {
     setUser(userData)
+  }
+
+  const logoutAction = () => {
+    setUser(null);
   }
 
   return (
@@ -30,6 +34,7 @@ function App() {
         <Route path="/games/edit" element={<GameEdit/>} />
         <Route path="/login" element={<Login onLogin={userAuthHandler}/>} />
         <Route path="/register" element={<Register onRegister={userAuthHandler} />} />
+        <Route path="/logout" element={<Logout onLogout={logoutAction}/>} />
       </Routes> 
 
       <Footer />
