@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router'; 
 
-export default function GameRegister(
+export default function GameRegister({
   onRegister,
-) {
+}) {
   const navigate = useNavigate();
   const registerHandler = (formData) => {
 
