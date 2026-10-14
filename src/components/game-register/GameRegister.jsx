@@ -1,16 +1,11 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router'; 
 
-export default function GameRegister() {
-  const [user, setUser] = useState(null);
+export default function GameRegister(
+  onRegister,
+) {
   const navigate = useNavigate();
-  const registerHandler = (e) => {
-  
+  const registerHandler = (formData) => {
 
-    e.preventDefault();
-    // Registration logic here
-
-    const formData = new FormData(e.target);
     const email = formData.get('email');
     const password = formData.get('password');
     const confirmPassword = formData.get('confirm-password');
@@ -25,11 +20,12 @@ export default function GameRegister() {
       return;
     }
 
-    setUser({ email});
+    onRegister({email});
     navigate('/');
   };
 
   return (
+    <>
     <section id="register-page" className="content auth">
         <form id="register" onSubmit={registerHandler}>
             <div className="container">
@@ -50,5 +46,6 @@ export default function GameRegister() {
             </div>
         </form>
     </section>
+    </>
   )
 }

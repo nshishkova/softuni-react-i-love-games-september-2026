@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router";
+import { useState } from "react";
 import Footer from "./components/footer/Footer.jsx";
 import Header from "./components/header/Header.jsx";
 import Home from "./components/home/Home.jsx";
@@ -10,10 +11,17 @@ import GameRegister from "./components/game-register/GameRegister.jsx"
 import GameLogin from "./components/game-login/GameLogin.jsx"
 
 function App() {
+
+  const [user, setUser] = useState(null);
+
+  const userAuthHandler = (userData) => {
+    setUser(userData)
+  }
+
   return (
     <>
-
       <Header />
+      {user && <p>Welcome, {user.email}</p>}
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -22,7 +30,7 @@ function App() {
         <Route path="/games/create" element={<GameCreate />} />
         <Route path="/games/edit" element={<GameEdit/>} />
         <Route path="/login" element={<GameLogin />} />
-        <Route path="/register" element={<GameRegister />} />
+        <Route path="/register" element={<GameRegister onRegister={userAuthHandler} />} />
       </Routes> 
 
       <Footer />
