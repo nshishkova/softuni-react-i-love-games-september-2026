@@ -7,8 +7,8 @@ import Catalog from "./components/catalog/Catalog.jsx";
 import GameDetails from "./components/game-details/GameDetails.jsx";
 import GameCreate from "./components/game-create/GameCreate.jsx"
 import GameEdit from "./components/game-edit/GameEdit.jsx"
-import GameRegister from "./components/game-register/GameRegister.jsx"
-import GameLogin from "./components/game-login/GameLogin.jsx"
+import Register from "./components/register/Register.jsx"
+import Login from "./components/login/Login.jsx"
 
 function App() {
 
@@ -28,8 +28,8 @@ function App() {
         <Route path="/games/:gameId" element={<GameDetails />} />
         <Route path="/games/create" element={<GameCreate />} />
         <Route path="/games/edit" element={<GameEdit/>} />
-        <Route path="/login" element={<GameLogin />} />
-        <Route path="/register" element={<GameRegister onRegister={userAuthHandler} />} />
+        <Route path="/login" element={<Login onLogin={userAuthHandler}/>} />
+        <Route path="/register" element={<Register onRegister={userAuthHandler} />} />
       </Routes> 
 
       <Footer />

@@ -1,12 +1,30 @@
-export default function GameLogin() {
-  return (
+import { useNavigate } from "react-router";
 
-    
+export default function Login({
+  onLogin,
+}) {
+  const navigate = useNavigate();
+
+  const submitAction = (formData) => {
+    const { email, password } = Object.fromEntries(formData);
+
+    if (!email || !password) {
+      alert('Email and password are required');
+      return;
+    }
+
+    onLogin({ email });
+
+    navigate('/');
+
+  }
+
+  return (
 
     // <!-- Login Page ( Only for Guest users ) -->
     <section id="login-page">
 
-        <form id="login">
+        <form id="login" action={submitAction}>
             <div className="container">
                 <h1>Login</h1>
                 <label htmlFor="email">Email</label>
