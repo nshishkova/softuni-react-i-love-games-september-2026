@@ -1,5 +1,5 @@
 import { useState } from "react"
-import request from "../../utils/request";
+import request, { uploadFile } from "../../utils/request";
 import { useNavigate } from "react-router";
 
 const initialValues = {
@@ -15,7 +15,7 @@ export default function GameCreate() {
 
     const [values, setValues] = useState(initialValues);
     const [isFileUpload, setIsFileUpload] = useState(false);
-    const [previewUrl, setPreviewUrl] = useState(null); 
+    const [previewUrl, setPreviewUrl] = useState(null);
     const navigate = useNavigate();
 
     const changeHandler = (e) => {
@@ -25,12 +25,22 @@ export default function GameCreate() {
         }));
     };
 
-    const submitAction = async () => {
+    const submitAction = async (formData) => {
+        const file = formData.get('image');
+        let imageUrl = values.imageUrl;
+
+        if (file) {
+            const fileName = file.name;
+            imageUrl = await uploadFile(fileName, file);
+        }
+
         try {
             await request('/games', "POST", {
                 ...values,
-                activePlayers: Number(values.activePlayers)
+                activePlayers: Number(values.activePlayers),
+                imageUrl
             });
+
             navigate("/");
         } catch (error) {
             alert(error.message);
@@ -94,13 +104,13 @@ export default function GameCreate() {
                     )}
 
                     < div className="form-group-full">
-                    <label htmlFor="summary">Summary:</label>
-                    <textarea name="summary" id="summary" rows="5" placeholder="Write a brief summary..." value={values.summary} onChange={changeHandler}></textarea>
-                </div>
+                        <label htmlFor="summary">Summary:</label>
+                        <textarea name="summary" id="summary" rows="5" placeholder="Write a brief summary..." value={values.summary} onChange={changeHandler}></textarea>
+                    </div>
 
-                <input className="btn submit" type="submit" value="ADD GAME" />
-            </div>
-        </form>
+                    <input className="btn submit" type="submit" value="ADD GAME" />
+                </div>
+            </form>
         </section >
 
 
