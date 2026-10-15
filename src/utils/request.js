@@ -42,9 +42,11 @@ export async function baseRequest(url, path = "/", method = "GET", data = null, 
     options.headers["Content-Type"] = "application/json";
   }
 
-  const response = await fetch(`${restUrl}${path}`, options);
+  const response = await fetch(`${url}${path}`, options);
 
   if (!response.ok) {
+    const errorText = await response.text();
+    console.error("Supabase error:", response.status, errorText)
     throw new Error(`Error: ${response.status}`);
   }
 

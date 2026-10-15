@@ -1,10 +1,9 @@
-import { useNavigate } from 'react-router'; 
-
 export default function Register({
   onRegister,
 }) {
-  const navigate = useNavigate();
-  const registerHandler = (formData) => {
+ 
+
+  const registerAction = (formData) => {
 
     const email = formData.get('email');
     const password = formData.get('password');
@@ -21,13 +20,13 @@ export default function Register({
     }
 
     onRegister({email, password});
-    navigate('/');
+    
   };
 
   return (
     <>
     <section id="register-page" className="content auth">
-        <form id="register" onSubmit={registerHandler}>
+        <form id="register" action={registerAction}>
             <div className="container">
                 <div className="brand-logo"></div>
                 <h1>Register</h1>
