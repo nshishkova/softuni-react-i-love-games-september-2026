@@ -1,4 +1,5 @@
 const restUrl = "https://erupyawdaagduppaijwm.supabase.co/rest/v1";
+const authUrl = "https://erupyawdaagduppaijwm.supabase.co/auth/v1";
 const storageUrl = "https://erupyawdaagduppaijwm.supabase.co/storage/v1/object/images"
 
 export async function uploadFile(fileName, file ) {
@@ -23,7 +24,7 @@ export async function uploadFile(fileName, file ) {
 
 }
 
-export default async function request(path = "/", method = "GET", data = null, opts = {}) {
+export async function baseRequest(url, path = "/", method = "GET", data = null, opts = {}) {
   const options = {
     headers: {
       apikey: import.meta.env.VITE_API_KEY,
@@ -49,3 +50,13 @@ export default async function request(path = "/", method = "GET", data = null, o
 
   return response.json();
 }
+
+export default async function request(path = "/", method = "GET", data = null, opts = {}) {
+    return baseRequest(restUrl, path, method, data, opts);
+}
+//export default baseRequest.bind(null, restUrl);
+
+export const authRequest = async (path = "/", method = "GET", data = null, opts = {}) => {
+    return baseRequest(authUrl, path, method, data, opts);
+};
+//export const authRequest = baseRequest.bind(null, authUrl);

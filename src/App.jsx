@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router";
 import { useState } from "react";
+import * as authApi from "./api/index.js";
 import Footer from "./components/footer/Footer.jsx";
 import Header from "./components/header/Header.jsx";
 import Home from "./components/home/Home.jsx";
@@ -12,28 +13,33 @@ import Login from "./components/login/Login.jsx"
 import Logout from "./components/logout/Logout.jsx";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [auth, setAuth] = useState(null);
 
-  const userAuthHandler = (userData) => {
-    setUser(userData)
+  const register = async (userData) => {
+    try{
+      const result = await authApi.register(userData);
+      console.log(result);
+    } catch (error) {
+      alert(error.message);
+    }
   }
 
   const logoutAction = () => {
-    setUser(null);
+    setAuth(null);
   }
 
   return (
     <>
-      <Header isAuthenticated={!!user} />
+      <Header isAuthenticated={!!auth} />
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/catalog" element={<Catalog />} />
-        <Route path="/games/:gameId" element={<GameDetails user={user} />} />
+        <Route path="/games/:gameId" element={<GameDetails user={auth} />} />
         <Route path="/games/create" element={<GameCreate />} />
         <Route path="/games/:gameId/edit" element={<GameEdit />} />
-        <Route path="/login" element={<Login onLogin={userAuthHandler}/>} />
-        <Route path="/register" element={<Register onRegister={userAuthHandler} />} />
+        <Route path="/login" element={<Login onLogin={register}/>} />
+        <Route path="/register" element={<Register onRegister={register} />} />
         <Route path="/logout" element={<Logout onLogout={logoutAction}/>} />
       </Routes> 
 
