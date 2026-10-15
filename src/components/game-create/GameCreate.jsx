@@ -15,6 +15,7 @@ export default function GameCreate() {
 
     const [values, setValues] = useState(initialValues);
     const [isFileUpload, setIsFileUpload] = useState(false);
+    const [previewUrl, setPreviewUrl] = useState(null); 
     const navigate = useNavigate();
 
     const changeHandler = (e) => {
@@ -39,7 +40,9 @@ export default function GameCreate() {
     const fileChangeHandler = (e) => {
         const file = e.target.files[0];
 
-        const reader = new FileReader();
+        const previewUrl = URL.createObjectURL(file);
+
+        setPreviewUrl(previewUrl);
     }
 
 
@@ -81,7 +84,7 @@ export default function GameCreate() {
                         <div className="form-group-half">
                             <label htmlFor="fileUpload">Upload File:</label>
                             <input type="file" id="fileUpload" name="image" onChange={fileChangeHandler} />
-                            <img src="" alt="preview" />
+                            {previewUrl && <img src={previewUrl} alt="preview" />}
                         </div>
                     ) : (
                         <div className="form-group-half">
