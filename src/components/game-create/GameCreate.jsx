@@ -14,6 +14,7 @@ const initialValues = {
 export default function GameCreate() {
 
     const [values, setValues] = useState(initialValues);
+    const [isFileUpload, setIsFileUpload] = useState(false);
     const navigate = useNavigate();
 
     const changeHandler = (e) => {
@@ -28,14 +29,20 @@ export default function GameCreate() {
             await request('/games', "POST", {
                 ...values,
                 activePlayers: Number(values.activePlayers)
-            });  
+            });
             navigate("/");
         } catch (error) {
             alert(error.message);
         }
     };
 
-  
+    const fileChangeHandler = (e) => {
+        const file = e.target.files[0];
+
+        const reader = new FileReader();
+    }
+
+
 
     return (
 
@@ -66,20 +73,32 @@ export default function GameCreate() {
                         <input type="date" id="releaseDate" name="releaseDate" value={values.releaseDate} onChange={changeHandler} />
                     </div>
 
-                    <div className="form-group-full">
-                        <label htmlFor="imageUrl">Image URL:</label>
-                        <input type="text" id="imageUrl" name="imageUrl" placeholder="Enter image URL..." value={values.imageUrl} onChange={changeHandler} />
+                    <div className="form-group-half">
+                        <label htmlFor="fileUpload">Set File Upload</label>
+                        <input type="checkbox" id="toggleFileUpload" name="toggleFileUpload" checked={isFileUpload} onChange={() => setIsFileUpload(!isFileUpload)} />
                     </div>
+                    {isFileUpload ? (
+                        <div className="form-group-half">
+                            <label htmlFor="fileUpload">Upload File:</label>
+                            <input type="file" id="fileUpload" name="image" onChange={fileChangeHandler} />
+                            <img src="" alt="preview" />
+                        </div>
+                    ) : (
+                        <div className="form-group-half">
+                            <label htmlFor="imageUrl">Image URL:</label>
+                            <input type="text" id="imageUrl" name="imageUrl" placeholder="Enter image URL..." value={values.imageUrl} onChange={changeHandler} />
+                        </div>
+                    )}
 
-                    <div className="form-group-full">
-                        <label htmlFor="summary">Summary:</label>
-                        <textarea name="summary" id="summary" rows="5" placeholder="Write a brief summary..." value={values.summary} onChange={changeHandler}></textarea>
-                    </div>
-
-                    <input className="btn submit" type="submit" value="ADD GAME" />
+                    < div className="form-group-full">
+                    <label htmlFor="summary">Summary:</label>
+                    <textarea name="summary" id="summary" rows="5" placeholder="Write a brief summary..." value={values.summary} onChange={changeHandler}></textarea>
                 </div>
-            </form>
-        </section>
+
+                <input className="btn submit" type="submit" value="ADD GAME" />
+            </div>
+        </form>
+        </section >
 
 
     )
