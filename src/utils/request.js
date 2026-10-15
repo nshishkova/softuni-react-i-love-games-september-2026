@@ -16,7 +16,7 @@ export async function uploadFile(fileName, file ) {
   });
 
   if (!response.ok) {
-    throw new Error(`Error: ${response.status}`);
+    throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
   return `https://erupyawdaagduppaijwm.supabase.co/storage/v1/object/images/${fileName}`;
