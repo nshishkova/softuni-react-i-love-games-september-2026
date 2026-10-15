@@ -8,7 +8,7 @@ export default function GameDetails() {
     const [game, setGame] = useState({});
 
     useEffect(() => {
-        request(`/Games?id=eq.${gameId}`).
+        request(`/games?id=eq.${gameId}`).
         then(result =>{
             setGame(result[0]);
         }).catch(err => alert(err));
@@ -24,7 +24,7 @@ export default function GameDetails() {
         }
 
         try {
-            await request(`/Games?id=eq.${gameId}`, 'DELETE');
+            await request(`/games?id=eq.${gameId}`, 'DELETE');
             navigate("/catalog");
         } catch(err) {
             alert(err);

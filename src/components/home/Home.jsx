@@ -7,7 +7,7 @@ export default function Home() {
     const [latestGames, setLatestGames] = useState([]);
 
     useEffect(() => {
-        request(`/Games?order=created_at.desc&limit=3`)
+        request(`/games?order=created_at.desc&limit=3`)
         .then(setLatestGames)
         .catch(error => alert(error))
     }, []);
