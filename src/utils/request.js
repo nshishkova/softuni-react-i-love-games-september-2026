@@ -4,6 +4,7 @@ export default async function request(path = "/", method = "GET", data = null) {
   const options = {
     headers: {
       apikey: import.meta.env.VITE_API_KEY,
+      Prefer: "return=representation"
     },
   };
   if (method !== "GET") {
@@ -21,9 +22,9 @@ export default async function request(path = "/", method = "GET", data = null) {
     throw new Error(`Error: ${response.status}`);
   }
 
-  if([201,204].includes(response.status)) {
-    return null;
-  }
+  // if([201,204].includes(response.status)) {
+  //   return null;
+  // }
 
   return response.json();
 }
