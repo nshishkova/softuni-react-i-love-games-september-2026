@@ -1,4 +1,4 @@
-const url = "https://erupyawdaagduppaijwm.supabase.co/rest/v1/";
+const url = "https://erupyawdaagduppaijwm.supabase.co/rest/v1";
 
 export default async function request(path = "/", method = "GET", data = null) {
   const options = {

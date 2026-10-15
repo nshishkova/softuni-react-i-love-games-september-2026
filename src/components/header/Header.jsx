@@ -9,7 +9,7 @@ export default function Header({
       <nav>
         <Link className="home" to="/">
           {" "}
-          <img src="./images/logo.png" alt="logo" />
+          <img src="/images/logo.png" alt="logo" />
         </Link>
         <Link to="/catalog">Catalog</Link>
         {isAuthenticated ?

@@ -1,35 +1,37 @@
 import { useParams, useNavigate, Link } from "react-router";
 import { useEffect, useState } from "react";
 import request from "../../utils/request.js";
+import CreateComment from "../comment-create/CreateComment.jsx";
+import CommentList from "../comment-list/CommentList.jsx";
 
-export default function GameDetails() {
-    const { gameId } = useParams();
-    const navigate = useNavigate();
-    const [game, setGame] = useState({});
+export default function GameDetails({ user }) {
+  const { gameId } = useParams();
+  const navigate = useNavigate();
+  const [game, setGame] = useState({});
 
-    useEffect(() => {
-        request(`/games?id=eq.${gameId}`).
-        then(result =>{
-            setGame(result[0]);
-        }).catch(err => alert(err));
-    }, [gameId]);
+  useEffect(() => {
+    request(`/games?id=eq.${gameId}`).
+      then(result => {
+        setGame(result[0]);
+      }).catch(err => alert(err));
+  }, [gameId]);
 
-    const deleteGameClickHandler = async (e) => {
-        e.preventDefault();
-        
-        const confirmed = confirm(`Are you sure you want to delete ${game.title} game?`);
+  const deleteGameClickHandler = async (e) => {
+    e.preventDefault();
 
-        if(!confirmed) {
-            return;
-        }
+    const confirmed = confirm(`Are you sure you want to delete ${game.title} game?`);
 
-        try {
-            await request(`/games?id=eq.${gameId}`, 'DELETE');
-            navigate("/catalog");
-        } catch(err) {
-            alert(err);
-        }
+    if (!confirmed) {
+      return;
     }
+
+    try {
+      await request(`/games?id=eq.${gameId}`, 'DELETE');
+      navigate("/catalog");
+    } catch (err) {
+      alert(err);
+    }
+  }
 
   return (
     <section id="game-details">
@@ -63,7 +65,7 @@ export default function GameDetails() {
           <div className="summary-section">
             <h2>Summary:</h2>
             <p className="text-summary">
-                {game.summary}
+              {game.summary}
             </p>
           </div>
         </div>
@@ -78,34 +80,10 @@ export default function GameDetails() {
           </a>
         </div>
 
-        <div className="details-comments">
-          <h2>Comments:</h2>
-          <ul>
-            <li className="comment">
-              <p>
-                Content: A masterpiece of world design, though the boss fights
-                are brutal.
-              </p>
-            </li>
-            <li className="comment">
-              <p>
-                Content: Truly feels like a next-gen evolution of the Souls
-                formula!
-              </p>
-            </li>
-          </ul>
-          {/* <!-- Display paragraph: If there are no games in the database --> */}
-          {/* <!-- <p className="no-comment">No comments.</p> --> */}
-        </div>
+        <CommentList gameId={gameId} />
       </div>
       {/* <!-- Add Comment ( Only for logged-in users, which is not creators of the current game ) --> */}
-      <article className="create-comment">
-        <label>Add new comment:</label>
-        <form className="form">
-          <textarea name="comment" placeholder="Comment......"></textarea>
-          <input className="btn submit" type="submit" value="Add Comment" />
-        </form>
-      </article>
+      {user && <CreateComment user={user} gameId={gameId} />}
     </section>
   );
 }
