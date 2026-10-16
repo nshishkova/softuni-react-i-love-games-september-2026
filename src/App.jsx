@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router";
 import { useState } from "react";
+import AuthContext from "./contexts/auth-context.js";
 import { useNavigate } from "react-router";
 import { authApi } from "./api";
 import Footer from "./components/footer/Footer.jsx";
@@ -47,8 +48,16 @@ function App() {
     setAuth(null);
   };
 
+  const contextValue = {
+    accessToken: auth?.access_token,
+    user: auth?.user,
+    isAuthenticated: !!auth,
+    register,
+    login,
+  }
+
   return (
-    <>
+    <AuthContext.Provider value={{ contextValue }}>
       <Header isAuthenticated={!!auth} />
 
       <Routes>
@@ -63,7 +72,7 @@ function App() {
       </Routes>
 
       <Footer />
-    </>
+    </AuthContext.Provider>
   );
 }
 
