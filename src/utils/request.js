@@ -7,6 +7,7 @@ export async function uploadFile(fileName, file ) {
     headers: {
       apikey: import.meta.env.VITE_API_KEY,
       'Content-Type': file.type || "application/octet-stream",
+      
     }
   };
 
@@ -26,11 +27,12 @@ export async function uploadFile(fileName, file ) {
 
 export async function baseRequest(url, path = "/", method = "GET", data = null, opts = {}) {
   const options = {
+     ...opts,
     headers: {
+       ...opts.headers,
       apikey: import.meta.env.VITE_API_KEY,
       Prefer: "return=representation"
-    },
-    ...opts
+    }
   };
 
   if (method !== "GET") {

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import request from "../../utils/request.js";
+import * as gameApi from "../../api/game-api.js";
 import GameCard from "../game-card/gameCard.jsx";
 
 export default function Catalog() {
   const [games, setGames] = useState([]);
 
   useEffect(() => {
-    request("/games?order=created_at.desc")
+      gameApi.getAll()
       .then(setGames)
       .catch(err => alert(err))
   }, []);
