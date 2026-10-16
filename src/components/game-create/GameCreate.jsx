@@ -1,5 +1,7 @@
 import { useState } from "react"
-import request, { uploadFile } from "../../utils/request";
+import * as gameApi from "../../api/game-api";
+//import request, { uploadFile } from "../../utils/request";
+import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router";
 
 const initialValues = {
@@ -14,8 +16,9 @@ const initialValues = {
 export default function GameCreate() {
 
     const [values, setValues] = useState(initialValues);
-    const [isFileUpload, setIsFileUpload] = useState(false);
-    const [previewUrl, setPreviewUrl] = useState(null);
+    const { accessToken } = useContext(AuthContext);
+    //const [isFileUpload, setIsFileUpload] = useState(false);
+    //const [previewUrl, setPreviewUrl] = useState(null);
     const navigate = useNavigate();
 
     const changeHandler = (e) => {
@@ -25,35 +28,31 @@ export default function GameCreate() {
         }));
     };
 
-    const submitAction = async (formData) => {
-        const file = formData.get('image');
-        let imageUrl = values.imageUrl;
+    const submitAction = async () => { //async (formData) => {
+        //const file = formData.get('image');
+        //let imageUrl = values.imageUrl;
 
-        if (file) {
-            const fileName = file.name;
-            imageUrl = await uploadFile(fileName, file);
-        }
+        //if (file) {
+        //    const fileName = file.name;
+        //    imageUrl = await uploadFile(fileName, file);
+        //}
 
         try {
-            await request('/games', "POST", {
-                ...values,
-                activePlayers: Number(values.activePlayers),
-                imageUrl
-            });
-
+            await gameApi.create(values, accessToken);
+        //imageUrl
             navigate("/");
         } catch (error) {
             alert(error.message);
         }
     };
 
-    const fileChangeHandler = (e) => {
-        const file = e.target.files[0];
+    //const fileChangeHandler = (e) => {
+    //    const file = e.target.files[0];
 
-        const previewUrl = URL.createObjectURL(file);
+    //    const previewUrl = URL.createObjectURL(file);
 
-        setPreviewUrl(previewUrl);
-    }
+    //    setPreviewUrl(previewUrl);
+    //}
 
 
 
@@ -86,8 +85,8 @@ export default function GameCreate() {
                         <input type="date" id="releaseDate" name="releaseDate" value={values.releaseDate} onChange={changeHandler} />
                     </div>
 
-                    <div className="form-group-half">
-                        <label htmlFor="fileUpload">Set File Upload</label>
+                    {/*<div className="form-group-half">
+                    <label htmlFor="fileUpload">Set File Upload</label>
                         <input type="checkbox" id="toggleFileUpload" name="toggleFileUpload" checked={isFileUpload} onChange={() => setIsFileUpload(!isFileUpload)} />
                     </div>
                     {isFileUpload ? (
@@ -96,14 +95,14 @@ export default function GameCreate() {
                             <input type="file" id="fileUpload" name="image" onChange={fileChangeHandler} />
                             {previewUrl && <img src={previewUrl} alt="preview" />}
                         </div>
-                    ) : (
+                    ) : (*/}
                         <div className="form-group-half">
                             <label htmlFor="imageUrl">Image URL:</label>
                             <input type="text" id="imageUrl" name="imageUrl" placeholder="Enter image URL..." value={values.imageUrl} onChange={changeHandler} />
                         </div>
-                    )}
+                    {/*)}*/}
 
-                    < div className="form-group-full">
+                    <div className="form-group-full">
                         <label htmlFor="summary">Summary:</label>
                         <textarea name="summary" id="summary" rows="5" placeholder="Write a brief summary..." value={values.summary} onChange={changeHandler}></textarea>
                     </div>
@@ -111,7 +110,7 @@ export default function GameCreate() {
                     <input className="btn submit" type="submit" value="ADD GAME" />
                 </div>
             </form>
-        </section >
+        </section>
 
 
     )

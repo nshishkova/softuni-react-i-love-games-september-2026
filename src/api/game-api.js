@@ -3,7 +3,19 @@ import request from "../utils/request.js";
 export const getAll = (accessToken) => {
   return request("/games?order=created_at.desc", "GET", null, {
     headers: {
-      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
-    }
+      ...getAuthHeader(accessToken),
+    },
   });
 };
+
+export const create = (data, accessToken) => {
+  return request("/games", "POST", data, {
+    headers: {
+      ...getAuthHeader(accessToken),
+    },
+  });
+};
+
+function getAuthHeader(accessToken) {
+  return accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
+}
