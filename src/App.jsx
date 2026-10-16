@@ -57,13 +57,13 @@ function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ contextValue }}>
+    <AuthContext.Provider value={contextValue}>
       <Header isAuthenticated={!!auth} />
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/catalog" element={<Catalog />} />
-        <Route path="/games/:gameId" element={<GameDetails user={auth?.user} />} />
+        <Route path="/games/:gameId" element={<GameDetails />} />
         <Route path="/games/create" element={<GameCreate />} />
         <Route path="/games/:gameId/edit" element={<GameEdit />} />
         <Route path="/login" element={<Login onLogin={login} />} />

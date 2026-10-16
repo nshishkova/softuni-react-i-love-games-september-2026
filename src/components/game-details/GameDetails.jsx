@@ -1,10 +1,13 @@
 import { useParams, useNavigate, Link } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import AuthContext from "../../contexts/auth-context.js";
 import request from "../../utils/request.js";
 import CreateComment from "../comment-create/CreateComment.jsx";
 import CommentList from "../comment-list/CommentList.jsx";
+import { gameApi } from "../../api/index.js";
 
-export default function GameDetails({ user }) {
+export default function GameDetails() {
+  const { user, accessToken } = useContext(AuthContext);
   const { gameId } = useParams();
   const navigate = useNavigate();
   const [game, setGame] = useState({});
@@ -26,7 +29,7 @@ export default function GameDetails({ user }) {
     }
 
     try {
-      await request(`/games?id=eq.${gameId}`, 'DELETE');
+      await gameApi.remove(gameId, accessToken);
       navigate("/catalog");
     } catch (err) {
       alert(err);
