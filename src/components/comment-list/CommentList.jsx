@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
-import request from "../../utils/request.js";
+import { useReducer, useEffect } from "react";
 import CommentItem from "./comment-item/CommentItem.jsx";
+import { commentReducer } from "./comment-reducer.js";
+import { commentApi } from "../../api/index.js";
 
 export default function CommentList({gameId}) {
-    const [comments, setComments] = useState([]);
+    const [comments, dispatch] = useReducer(commentReducer, []);
 
     useEffect(() => {
-        request(`/comments?game_id=eq.${gameId}&order=created_at.desc`)
-            .then(result => setComments(result));
+        commentApi.getAll(gameId)
+            .then(result => dispatch({ type: "SET_COMMENTS", payload: result }));
     }, [gameId]);
     return (
         <div className="details-comments">
