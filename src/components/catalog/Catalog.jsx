@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import AuthContext from "../../contexts/auth-context.js";
+import AuthContext from "../../contexts/auth-context.jsx";
 import * as gameApi from "../../api/game-api.js";
 import GameCard from "../game-card/gameCard.jsx";
 

@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
 import * as gameApi from "../../api/game-api";
 //import request, { uploadFile } from "../../utils/request";
-import AuthContext from "../../contexts/auth-context";
+import AuthContext from "../../contexts/auth-context.jsx";
 import { useNavigate } from "react-router";
 
 const initialValues = {

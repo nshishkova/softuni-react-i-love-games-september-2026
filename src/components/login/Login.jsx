@@ -1,8 +1,8 @@
-import { useAuth } from "../../contexts/auth-context.js";
+import { useAuth } from "../../hooks/useAuth.js";
 
 export default function Login() {
   const { login } = useAuth();
-  
+
   const submitAction = (formData) => {
     const { email, password } = Object.fromEntries(formData);
 

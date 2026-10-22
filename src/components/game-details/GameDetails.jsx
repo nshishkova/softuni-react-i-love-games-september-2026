@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Link } from "react-router";
 import { useEffect, useState, useContext } from "react";
-import AuthContext from "../../contexts/auth-context.js";
+import AuthContext from "../../contexts/auth-context.jsx";
 import request from "../../utils/request.js";
 import CreateComment from "../comment-create/CreateComment.jsx";
 import CommentList from "../comment-list/CommentList.jsx";
