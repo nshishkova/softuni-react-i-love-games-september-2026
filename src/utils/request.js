@@ -31,7 +31,8 @@ export async function baseRequest(url, path = "/", method = "GET", data = null, 
     headers: {
        ...opts.headers,
       apikey: import.meta.env.VITE_API_KEY,
-      Prefer: "return=representation"
+      Prefer: "return=representation",
+      ...getAuthHeader()
     }
   };
 
@@ -47,8 +48,6 @@ export async function baseRequest(url, path = "/", method = "GET", data = null, 
   const response = await fetch(`${url}${path}`, options);
 
   if (!response.ok) {
-    const errorText = await response.text();
-    console.error("Supabase error:", response.status, errorText)
     throw new Error(`Error: ${response.status}`);
   }
 
@@ -68,3 +67,12 @@ export const authRequest = async (path = "/", method = "GET", data = null, opts 
     return baseRequest(authUrl, path, method, data, opts);
 };
 //export const authRequest = baseRequest.bind(null, authUrl);
+
+function getAuthHeader() {
+  const auth = localStorage.getItem("auth");
+  const accessToken = auth ? JSON.parse(auth)?.access_token : null;
+
+  return {
+    ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+  };
+}

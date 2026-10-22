@@ -1,7 +1,6 @@
-import { useContext, useState } from "react"
+import { useState } from "react"
 import * as gameApi from "../../api/game-api";
 //import request, { uploadFile } from "../../utils/request";
-import AuthContext from "../../contexts/auth-context.jsx";
 import { useNavigate } from "react-router";
 
 const initialValues = {
@@ -16,7 +15,6 @@ const initialValues = {
 export default function GameCreate() {
 
     const [values, setValues] = useState(initialValues);
-    const { accessToken } = useContext(AuthContext);
     //const [isFileUpload, setIsFileUpload] = useState(false);
     //const [previewUrl, setPreviewUrl] = useState(null);
     const navigate = useNavigate();
@@ -37,7 +35,7 @@ export default function GameCreate() {
         //    imageUrl = await uploadFile(fileName, file);
         //}
         try {
-            await gameApi.create(values, accessToken);
+            await gameApi.create(values);
         //imageUrl
             navigate("/");
         } catch (error) {

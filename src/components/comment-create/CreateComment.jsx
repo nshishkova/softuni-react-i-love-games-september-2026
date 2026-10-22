@@ -2,7 +2,7 @@
 import * as commentApi from "../../api/comment-api.js";
 
 export default function CreateComment({ 
-    user, gameId, accessToken, onCreate
+    user, gameId, onCreate
 }) {
 
     const addCommentAction = async (formData) => {
@@ -14,7 +14,7 @@ export default function CreateComment({
         };
 
         try {
-            await commentApi.create(newComment, accessToken);
+            await commentApi.create(newComment);
             onCreate();
         } catch (error) {
             alert(error.message);

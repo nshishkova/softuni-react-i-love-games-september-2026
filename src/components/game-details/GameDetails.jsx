@@ -7,7 +7,7 @@ import CommentList from "../comment-list/CommentList.jsx";
 import { gameApi } from "../../api/index.js";
 
 export default function GameDetails() {
-  const { user, accessToken, isAuthenticated } = useContext(AuthContext);
+  const { user, isAuthenticated } = useContext(AuthContext);
   const { gameId } = useParams();
   const navigate = useNavigate();
   const [game, setGame] = useState({});
@@ -32,7 +32,7 @@ export default function GameDetails() {
     }
 
     try {
-      await gameApi.remove(gameId, accessToken);
+      await gameApi.remove(gameId);
       navigate("/catalog");
     } catch (err) {
       alert(err);
@@ -90,7 +90,7 @@ export default function GameDetails() {
         <CommentList gameId={gameId} refresh={refresh} />
       </div>
       {/* <!-- Add Comment ( Only for logged-in users, which is not creators of the current game ) --> */}
-      {isAuthenticated && !isOwner && <CreateComment user={user} accessToken={accessToken} gameId={gameId} onCreate={() => setRefresh(state => !state)} />}
+      {isAuthenticated && !isOwner && <CreateComment user={user} gameId={gameId} onCreate={() => setRefresh(state => !state)} />}
     </section>
   );
 }
