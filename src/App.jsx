@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router";
-import { useState } from "react";
 import AuthContext from "./contexts/auth-context.js";
 import { useNavigate } from "react-router";
 import { authApi } from "./api";
@@ -13,11 +12,12 @@ import GameEdit from "./components/game-edit/GameEdit.jsx";
 import Register from "./components/register/Register.jsx";
 import Login from "./components/login/Login.jsx";
 import Logout from "./components/logout/Logout.jsx";
+import usePersistedState from "./hooks/usePeristedState.js";
 
 function App() {
   const navigate = useNavigate();
 
-  const [auth, setAuth] = useState(null);
+  const [auth, setAuth] = usePersistedState('auth', null);
 
   const register = async (userData) => {
     try {
