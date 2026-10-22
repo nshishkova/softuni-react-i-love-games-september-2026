@@ -13,7 +13,13 @@ export default function CommentList({gameId}) {
 
     const deleteCommentHandler = (id) => {
         commentApi.remove(id)
-            .then(() => dispatch({ type: "DELETE_COMMENT", payload: id }));
+            .then(result => {
+                // Supabase returns the deleted rows; empty array = blocked by RLS
+                if (result?.length) {
+                    dispatch({ type: "DELETE_COMMENT", payload: id });
+                }
+            })
+            .catch(err => alert(err.message));
     };
 
     return (
