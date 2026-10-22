@@ -1,19 +1,15 @@
 import request from "../utils/request.js";
 
-export const getAll = async (gameId) => {
+export const getAll = (gameId) => {
   return request(`/comments?game_id=eq.${gameId}&order=created_at.desc`);
 };
 
-export const create = async (data, accessToken) => {
-  return request("/comments", "POST", data, {
-    headers: {
-      ...getAuthHeader(accessToken),
-    },
-  });
+export const create = (data) => {
+  return request("/comments", "POST", data);
 };
 
-function getAuthHeader(accessToken) {
-  return {
-    ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-  };
-}
+export const remove = (id) => {
+  return request(`/comments?id=eq.${id}`, "DELETE");
+};
+
+
