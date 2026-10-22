@@ -1,4 +1,8 @@
-export default function Login({ onLogin }) {
+import { useAuth } from "../../contexts/auth-context.js";
+
+export default function Login() {
+  const { login } = useAuth();
+  
   const submitAction = (formData) => {
     const { email, password } = Object.fromEntries(formData);
 
@@ -7,7 +11,7 @@ export default function Login({ onLogin }) {
       return;
     }
 
-    onLogin({ email, password });
+    login({ email, password });
   };
 
   return (

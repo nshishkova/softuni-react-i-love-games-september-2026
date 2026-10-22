@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router";
-import AuthContext from "./contexts/auth-context.js";
-import { useNavigate } from "react-router";
-import { authApi } from "./api";
+
+import {AuthProvider} from "./contexts/auth-context.js";
+
 import Footer from "./components/footer/Footer.jsx";
 import Header from "./components/header/Header.jsx";
 import Home from "./components/home/Home.jsx";
@@ -12,61 +12,12 @@ import GameEdit from "./components/game-edit/GameEdit.jsx";
 import Register from "./components/register/Register.jsx";
 import Login from "./components/login/Login.jsx";
 import Logout from "./components/logout/Logout.jsx";
-import usePersistedState from "./hooks/usePeristedState.js";
 
 function App() {
-  const navigate = useNavigate();
-
-  const [auth, setAuth] = usePersistedState('auth', null);
-
-  const register = async (userData) => {
-    try {
-      const result = await authApi.register(userData);
-
-      setAuth(result);
-
-      navigate("/");
-    } catch (error) {
-
-      alert(error.message);
-    }
-  };
-
-  const login = async (userData) => {
-    try {
-      const result = await authApi.login(userData);
-
-      setAuth(result);
-
-      navigate("/");
-    } catch (error) {
-      alert(error.message);
-    }
-  }; 
-
-  const logoutAction = async () => {
-    try {
-      await authApi.logout(auth?.access_token);
-
-      setAuth(null);
-    } catch (error) {
-      alert(error.message);
-    }
-    
-  };
-
-  const contextValue = {
-    accessToken: auth?.access_token,
-    user: auth?.user,
-    isAuthenticated: !!auth,
-    register,
-    login,
-    logout: logoutAction
-  }
 
   return (
-    <AuthContext.Provider value={contextValue}>
-      <Header isAuthenticated={!!auth} />
+    <AuthProvider>
+      <Header />
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -74,13 +25,13 @@ function App() {
         <Route path="/games/:gameId" element={<GameDetails />} />
         <Route path="/games/create" element={<GameCreate />} />
         <Route path="/games/:gameId/edit" element={<GameEdit />} />
-        <Route path="/login" element={<Login onLogin={login} />} />
-        <Route path="/register" element={<Register onRegister={register} />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/logout" element={<Logout />} />
       </Routes>
 
       <Footer />
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 
