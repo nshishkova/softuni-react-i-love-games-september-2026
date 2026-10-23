@@ -2,34 +2,11 @@ const restUrl = "https://erupyawdaagduppaijwm.supabase.co/rest/v1";
 const authUrl = "https://erupyawdaagduppaijwm.supabase.co/auth/v1";
 const storageUrl = "https://erupyawdaagduppaijwm.supabase.co/storage/v1/object/images"
 
-export async function uploadFile(fileName, file ) {
-  const options = {
-    headers: {
-      apikey: import.meta.env.VITE_API_KEY,
-      'Content-Type': file.type || "application/octet-stream",
-      
-    }
-  };
-
-  const response = await fetch(`${storageUrl}/${fileName}`, {
-    method: "POST",
-    body: file,
-    ...options
-  });
-
-  if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
-  }
-
-  return `https://erupyawdaagduppaijwm.supabase.co/storage/v1/object/images/${fileName}`;
-
-}
-
 export async function baseRequest(url, path = "/", method = "GET", data = null, opts = {}) {
   const options = {
-     ...opts,
+    ...opts,
     headers: {
-       ...opts.headers,
+      ...opts.headers,
       apikey: import.meta.env.VITE_API_KEY,
       Prefer: "return=representation",
       ...getAuthHeader()
@@ -41,8 +18,8 @@ export async function baseRequest(url, path = "/", method = "GET", data = null, 
   }
 
   if (data) {
-    options.body = JSON.stringify(data);
-    options.headers["Content-Type"] = "application/json";
+    options.headers["Content-Type"] = options.headers["Content-Type"] ||"application/json";
+    options.body = data instanceof File ? data : JSON.stringify(data);
   }
 
   const response = await fetch(`${url}${path}`, options);
@@ -59,14 +36,22 @@ export async function baseRequest(url, path = "/", method = "GET", data = null, 
 }
 
 export default async function request(path = "/", method = "GET", data = null, opts = {}) {
-    return baseRequest(restUrl, path, method, data, opts);
+  return baseRequest(restUrl, path, method, data, opts);
 }
 //export default baseRequest.bind(null, restUrl);
 
 export const authRequest = async (path = "/", method = "GET", data = null, opts = {}) => {
-    return baseRequest(authUrl, path, method, data, opts);
+  return baseRequest(authUrl, path, method, data, opts);
 };
 //export const authRequest = baseRequest.bind(null, authUrl);
+
+export const storageRequest = async (fileName, file) => {
+  return baseRequest(storageUrl, `/${fileName}`, "POST", file, {
+    headers: {
+      'Content-Type': file.type || "application/octet-stream",
+    } 
+  });
+};
 
 function getAuthHeader() {
   const auth = localStorage.getItem("auth");
