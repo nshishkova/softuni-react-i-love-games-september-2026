@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router";
 
 import { AuthProvider } from "./contexts/auth-context.jsx";
+import { ToastContainer } from "react-toastify";
 
 import Footer from "./components/footer/Footer.jsx";
 import Header from "./components/header/Header.jsx";
@@ -31,6 +32,7 @@ function App() {
       </Routes>
 
       <Footer />
+      <ToastContainer />
     </AuthProvider>
   );
 }

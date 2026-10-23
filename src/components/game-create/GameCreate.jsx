@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { toast } from "react-toastify";
 import * as gameApi from "../../api/game-api";
 //import request, { uploadFile } from "../../utils/request";
 import { useNavigate } from "react-router";
@@ -36,10 +37,11 @@ export default function GameCreate() {
         //}
         try {
             await gameApi.create(values);
+            toast.success("Game created successfully");
         //imageUrl
             navigate("/");
         } catch (error) {
-            alert(error.message);
+            toast.error(error.message);
         }
     };
 

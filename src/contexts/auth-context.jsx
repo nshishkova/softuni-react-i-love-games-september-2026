@@ -45,7 +45,7 @@ export function AuthProvider({
 
     const logoutAction = async () => {
         try {
-            await authApi.logout();
+            await authApi.logout(auth?.access_token);
         } catch (error) {
             // Expired token -> server rejects logout; clear the local session anyway
             console.error(error.message);
