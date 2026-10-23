@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router";
 import { AuthProvider } from "./contexts/auth-context.jsx";
 import { ToastContainer } from "react-toastify";
 
+import Profile from "./components/profile/Profile.jsx";
 import Footer from "./components/footer/Footer.jsx";
 import Header from "./components/header/Header.jsx";
 import Home from "./components/home/Home.jsx";
@@ -29,6 +30,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
 
       <Footer />

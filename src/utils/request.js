@@ -25,7 +25,8 @@ export async function baseRequest(url, path = "/", method = "GET", data = null, 
   const response = await fetch(`${url}${path}`, options);
 
   if (!response.ok) {
-    throw new Error(`Error: ${response.status}`);
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.message || err.error || `Error: ${response.status}`);
   }
 
   if (response.status === 204) {
